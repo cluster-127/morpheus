@@ -212,6 +212,9 @@ async fn run() {
     // Pixel buffer - reused every frame
     let mut pixels = vec![0u8; GRID_WIDTH * GRID_HEIGHT * 4];
 
+    // Rejection flash grid - tracks where shapes got blocked this tick
+    let mut rejection_flash = vec![0u8; GRID_WIDTH * GRID_HEIGHT];
+
     event_loop
         .run(move |event, elwt| {
             match event {
@@ -234,9 +237,16 @@ async fn run() {
                 Event::AboutToWait => {
                     tick += 1;
 
+                    // Clear rejection flash from previous tick
+                    rejection_flash.fill(0);
+                    let mut rejected_count = 0usize;
+
                     // === PHASE 1: Direct Field Contribution ===
+                    // LOAD TEST: Higher contribution rate to force saturation
+                    let load_multiplier = if tick > 300 { 3 } else { 1 }; // Ramp up after 5 seconds
+
                     for hotspot in &hotspots {
-                        for _ in 0..CONTRIBUTIONS_PER_TICK / hotspots.len() {
+                        for _ in 0..(CONTRIBUTIONS_PER_TICK * load_multiplier) / hotspots.len() {
                             let angle: f32 = rng.gen_range(0.0..std::f32::consts::TAU);
                             let dist: f32 = rng.gen_range(0.0..hotspot.radius);
                             let x = (hotspot.center_x as f32 + angle.cos() * dist) as usize;
@@ -245,6 +255,10 @@ async fn run() {
                             if x < GRID_WIDTH && y < GRID_HEIGHT {
                                 if grid.is_habitable(x, y, HABITABILITY_THRESHOLD) {
                                     grid.contribute(x, y, hotspot.intensity, hotspot.color);
+                                } else {
+                                    // REJECTION! Mark this location for flash
+                                    rejection_flash[y * GRID_WIDTH + x] = 255;
+                                    rejected_count += 1;
                                 }
                             }
                         }
@@ -257,21 +271,27 @@ async fn run() {
                     grid.apply_decay();
 
                     // === PHASE 4: Render Field ===
-                    // CPU only sends raw data, GPU does the glow
                     let mut saturated_count = 0usize;
                     for y in 0..GRID_HEIGHT {
                         for x in 0..GRID_WIDTH {
                             let (r, g, b) = grid.rgb(x, y);
                             let density = grid.density(x, y);
                             let idx = (y * GRID_WIDTH + x) * 4;
+                            let flash = rejection_flash[y * GRID_WIDTH + x];
 
-                            if density >= HABITABILITY_THRESHOLD {
+                            if flash > 0 {
+                                // REJECTION FLASH: Magenta spark where shape got blocked
+                                pixels[idx] = 255; // R
+                                pixels[idx + 1] = 0; // G
+                                pixels[idx + 2] = 255; // B (Magenta)
+                            } else if density >= HABITABILITY_THRESHOLD {
+                                // Saturated zone - white wall
                                 pixels[idx] = 255;
                                 pixels[idx + 1] = 255;
                                 pixels[idx + 2] = 255;
                                 saturated_count += 1;
                             } else {
-                                // Map 0-THRESHOLD to 0-255 for full danger ramp visibility
+                                // Normal trace with danger ramp
                                 let scale =
                                     |v: u32| ((v * 255) / HABITABILITY_THRESHOLD).min(255) as u8;
                                 pixels[idx] = scale(r);
@@ -342,9 +362,10 @@ async fn run() {
                     if tick % 30 == 0 {
                         let saturated_pct =
                             (saturated_count as f32 / (GRID_WIDTH * GRID_HEIGHT) as f32) * 100.0;
+                        let mode = if tick > 300 { "LOAD TEST 3x" } else { "Normal" };
                         window.set_title(&format!(
-                            "TES | Tick: {} | Saturated: {:.1}%",
-                            tick, saturated_pct
+                            "TES | {} | Tick: {} | Sat: {:.1}% | Rejected: {}",
+                            mode, tick, saturated_pct, rejected_count
                         ));
                     }
 
