@@ -19,14 +19,14 @@ use tes::{IsotopeGrid, ServiceColor};
 // Frame rate limiting (60 FPS)
 const TARGET_FRAME_TIME: Duration = Duration::from_millis(16);
 
-// Grid dimensions - this is the ONLY data structure
+// Grid dimensions
 const GRID_WIDTH: usize = 256;
 const GRID_HEIGHT: usize = 256;
-const DECAY_RATE: u32 = 1; // Lower for persistent traces
-const HABITABILITY_THRESHOLD: u32 = 500;
+const DECAY_RATE: u32 = 5; // Balanced: 5x faster recovery with high energy
+const HABITABILITY_THRESHOLD: u32 = 2500; // Earlier choking for backpressure
 
 // Contribution parameters
-const CONTRIBUTIONS_PER_TICK: usize = 300; // More feed for visible effect
+const CONTRIBUTIONS_PER_TICK: usize = 400; // Faster saturation for demo
 
 /// Service hotspot - just parameters, NO shape tracking
 struct Hotspot {
@@ -187,21 +187,21 @@ async fn run() {
             center_x: 70,
             center_y: 70,
             radius: 45.0,
-            intensity: 20,
+            intensity: 200, // 10x scale for proper recovery dynamics
         },
         Hotspot {
             color: ServiceColor::from_name("Payment"),
             center_x: 128,
             center_y: 128,
             radius: 55.0,
-            intensity: 25,
+            intensity: 250,
         },
         Hotspot {
             color: ServiceColor::from_name("Worker"),
             center_x: 190,
             center_y: 190,
             radius: 40.0,
-            intensity: 18,
+            intensity: 180,
         },
     ];
 

@@ -27,3 +27,11 @@ viz = ["wgpu", "winit", "pollster", "bytemuck", "rand"]
 name = "tes-viz"
 path = "src/bin/viz.rs"
 required-features = ["viz"]
+
+[[bench]]
+name = "tes_load"
+harness = false
+
+[[bench]]
+name = "actor_baseline"
+harness = false
