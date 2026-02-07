@@ -1,4 +1,4 @@
-# TES: Spektroskopik Arayüz Spesifikasyonu
+# Morpheus: Spektroskopik Arayüz Spesifikasyonu
 
 > Terminal Brutalism × Scientific Visualization
 
@@ -8,7 +8,7 @@
 
 ### 1.1 Müdahale Değil, Müşahede
 
-TES bir **Control Plane** değildir. Bir **Observation Plane**'dir.
+Morpheus bir **Control Plane** değildir. Bir **Observation Plane**'dir.
 
 | Yok | Var |
 |-----|-----|
@@ -173,7 +173,7 @@ space! {
 ```rust
 // Servis tarafında
 let color = ServiceColor::from_name("AuthService");
-tes.contribute(x, y, magnitude, color);
+morpheus.contribute(x, y, magnitude, color);
 ```
 
 Her `contribute` çağrısı, ekranda o noktada renk parlaması ve decay sönümlenmesi yaratır.

@@ -1,5 +1,5 @@
 [package]
-name = "tes"
+name = "morpheus"
 version = "0.1.0"
 edition = "2021"
 description = "Topographic Execution Substrate - A coordination medium based on spatial topology"
@@ -24,12 +24,12 @@ default = []
 viz = ["wgpu", "winit", "pollster", "bytemuck", "rand"]
 
 [[bin]]
-name = "tes-viz"
+name = "morpheus-viz"
 path = "src/bin/viz.rs"
 required-features = ["viz"]
 
 [[bench]]
-name = "tes_load"
+name = "morpheus_load"
 harness = false
 
 [[bench]]

@@ -89,6 +89,7 @@ impl TracePixel {
 }
 
 /// Isotope-aware density grid with RGB trace tracking.
+#[allow(unused)]
 pub struct IsotopeGrid {
     width: usize,
     height: usize,

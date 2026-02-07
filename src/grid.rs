@@ -1,4 +1,4 @@
-//! Trace density grid - the heart of TES
+//! Trace density grid - the heart of Morpheus
 //!
 //! Trace is NOT a data structure, it's a scalar field.
 //! No origin tracking (Source Amnesia), just density values.
@@ -57,9 +57,7 @@ impl DensityGrid {
         solid_threshold: u32,
         liquid_threshold: u32,
     ) -> Self {
-        let cells = (0..width * height)
-            .map(|_| AtomicU32::new(0))
-            .collect();
+        let cells = (0..width * height).map(|_| AtomicU32::new(0)).collect();
 
         Self {
             width,

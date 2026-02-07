@@ -1,9 +1,9 @@
-//! TES Visualization - Pure Field-Based
+//! Morpheus Visualization - Pure Field-Based
 //!
 //! NO particle tracking. NO object iteration.
 //! Only the Grid exists. Shapes are invisible - only their trace remains.
 //!
-//! Run with: cargo run --bin tes-viz --features viz
+//! Run with: cargo run --bin morpheus-viz --features viz
 
 use rand::Rng;
 use std::sync::Arc;
@@ -14,7 +14,7 @@ use winit::{
     window::WindowBuilder,
 };
 
-use tes::{IsotopeGrid, ServiceColor};
+use morpheus::{IsotopeGrid, ServiceColor};
 
 // Frame rate limiting (60 FPS)
 const TARGET_FRAME_TIME: Duration = Duration::from_millis(16);
@@ -45,7 +45,7 @@ async fn run() {
     let event_loop = EventLoop::new().unwrap();
     let window = Arc::new(
         WindowBuilder::new()
-            .with_title("TES - Pure Field Visualization")
+            .with_title("Morpheus - Pure Field Visualization")
             .with_inner_size(winit::dpi::LogicalSize::new(800, 800))
             .build(&event_loop)
             .unwrap(),
@@ -76,7 +76,7 @@ async fn run() {
     surface.configure(&device, &config);
 
     let shader = device.create_shader_module(wgpu::ShaderModuleDescriptor {
-        label: Some("TES Shader"),
+        label: Some("Morpheus Shader"),
         source: wgpu::ShaderSource::Wgsl(SHADER.into()),
     });
 
@@ -368,7 +368,7 @@ async fn run() {
                             (saturated_count as f32 / (GRID_WIDTH * GRID_HEIGHT) as f32) * 100.0;
                         let mode = if tick > 300 { "LOAD TEST 3x" } else { "Normal" };
                         window.set_title(&format!(
-                            "TES | {} | Tick: {} | Sat: {:.1}% | Rejected: {}",
+                            "Morpheus | {} | Tick: {} | Sat: {:.1}% | Rejected: {}",
                             mode, tick, saturated_pct, rejected_count
                         ));
                     }

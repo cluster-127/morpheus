@@ -1,6 +1,6 @@
-# TES: Matematiksel Formalizasyon
+# Morpheus: Matematiksel Formalizasyon
 
-Bu doküman, Topographic Execution Substrate (TES) modelinin formel matematiksel tanımını içerir.
+Bu doküman, Topographic Execution Substrate (Morpheus) modelinin formel matematiksel tanımını içerir.
 
 ---
 

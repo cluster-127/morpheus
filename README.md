@@ -1,12 +1,12 @@
-# Topographic Execution Substrate (TES)
+# Morpheus
 
 > **"Behaviour-centric → Topology-centric"**
 
-TES, dijital sistemler için yeni bir zihin değil; **yeni bir coğrafya** önerir.
+Morpheus, dijital sistemler için yeni bir zihin değil; **yeni bir coğrafya** önerir.
 
 ## Nedir?
 
-TES bir runtime, programlama dili veya agent framework **değildir**.
+Morpheus bir runtime, programlama dili veya agent framework **değildir**.
 
 Amaç: Varlıkların **nerede, ne kadar ve ne süreyle var olabileceğini** belirleyen edilgen bir uzay sunmaktır.
 
@@ -29,7 +29,7 @@ Amaç: Varlıkların **nerede, ne kadar ve ne süreyle var olabileceğini** beli
 ## Hızlı Başlangıç
 
 ```rust
-use tes::{Substrate, IsotopeGrid, ServiceColor};
+use morpheus::{Substrate, IsotopeGrid, ServiceColor};
 
 // Basit substrat oluştur
 let mut substrate = Substrate::new(100, 100, 5, 1000);
@@ -58,7 +58,7 @@ grid.contribute(50, 50, 99, auth);
 ## Literatürdeki Pozisyon
 
 ```
-TES = Linda ∩ Reaction-Diffusion − Rules
+Morpheus = Linda ∩ Reaction-Diffusion − Rules
     = Generative Communication + Continuous Decay − Explicit Retrieval
 ```
 

@@ -1,8 +1,8 @@
-//! # TES Core
+//! # Morpheus Core
 //!
 //! Topographic Execution Substrate - A coordination medium based on spatial topology.
 //!
-//! TES is **not** a runtime, programming language, or agent framework.
+//! Morpheus is **not** a runtime, programming language, or agent framework.
 //! It is a passive space that determines where, how much, and for how long
 //! entities can exist.
 //!
@@ -20,14 +20,14 @@
 //! - No rollback, no replay - decay only
 //! - Identity-free coordination
 
-mod space;
-mod shape;
 mod grid;
-mod substrate;
 mod isotope;
+mod shape;
+mod space;
+mod substrate;
 
-pub use space::Space;
-pub use shape::Shape;
 pub use grid::DensityGrid;
-pub use substrate::Substrate;
 pub use isotope::{IsotopeGrid, ServiceColor};
+pub use shape::Shape;
+pub use space::Space;
+pub use substrate::Substrate;

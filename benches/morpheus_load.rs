@@ -1,14 +1,14 @@
-//! TES Load Benchmark
+//! Morpheus Load Benchmark
 //!
-//! Measures TES performance under load:
+//! Measures Morpheus performance under load:
 //! - Memory: O(grid_size) constant regardless of request count
 //! - Rejection latency: sub-microsecond
 //! - Recovery: automatic via decay
 //!
-//! Run with: cargo bench --bench tes_load
+//! Run with: cargo bench --bench morpheus_load
 
+use morpheus::{IsotopeGrid, ServiceColor};
 use std::time::{Duration, Instant};
-use tes::{IsotopeGrid, ServiceColor};
 
 // Benchmark configuration - matches viz.rs physics
 const GRID_WIDTH: usize = 256;
@@ -153,6 +153,7 @@ fn benchmark_cold_start_recovery() -> RecoveryResult {
 }
 
 #[derive(Debug)]
+#[allow(unused)]
 struct LoadSpikeResult {
     requests: usize,
     accepted: usize,
@@ -179,7 +180,7 @@ struct RecoveryResult {
 }
 
 fn main() {
-    println!("=== TES Load Benchmark ===\n");
+    println!("=== Morpheus Load Benchmark ===\n");
 
     // Scenario 1: Load Spike
     println!("--- Scenario 1: Load Spike ---");
@@ -215,7 +216,7 @@ fn main() {
         rec_result.duration
     );
 
-    println!("\n=== TES Key Metrics ===");
+    println!("\n=== Morpheus Key Metrics ===");
     println!(
         "  Memory: O(grid_size) = {} bytes constant",
         GRID_WIDTH * GRID_HEIGHT * 12

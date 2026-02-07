@@ -2,10 +2,10 @@
 //!
 //! Combines Space and Shapes into a tick-based simulation.
 
-use crate::space::Space;
 use crate::shape::Shape;
+use crate::space::Space;
 
-/// The TES substrate - combines space and shapes.
+/// The Morpheus substrate - combines space and shapes.
 pub struct Substrate {
     /// The topographic space
     space: Space,
@@ -31,13 +31,7 @@ impl Substrate {
     /// Spawn a new shape at position.
     ///
     /// Returns the shape ID, or None if position is not habitable.
-    pub fn spawn(
-        &mut self,
-        x: usize,
-        y: usize,
-        lifetime: u32,
-        contribution: u32,
-    ) -> Option<u64> {
+    pub fn spawn(&mut self, x: usize, y: usize, lifetime: u32, contribution: u32) -> Option<u64> {
         // A1: Check habitability
         if !self.space.is_habitable(x, y) {
             return None;

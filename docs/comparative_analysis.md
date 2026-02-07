@@ -1,26 +1,26 @@
-# TES: Karşılaştırmalı Analiz
+# Morpheus: Karşılaştırmalı Analiz
 
-Bu doküman, TES'i (Topographic Execution Substrate) mevcut eşzamanlılık ve hesaplama modelleriyle karşılaştırır.
+Bu doküman, Morpheus'ı (Topographic Execution Substrate) mevcut eşzamanlılık ve hesaplama modelleriyle karşılaştırır.
 
 ---
 
 ## 1. Model Kategorileri
 
-TES'i doğru konumlandırmak için modelleri üç kategoriye ayırıyoruz:
+Morpheus'ı doğru konumlandırmak için modelleri üç kategoriye ayırıyoruz:
 
 | Kategori | Modeller | Odak |
 |----------|----------|------|
 | **Computational** | Actor Model, CSP | İş yapanlar — mesaj, davranış |
 | **State** | Petri Nets, P-Systems | Durum tutanlar — token, marking |
-| **Coordination** | Linda, Reaction-Diffusion | Ortam koordinasyonu — TES'in asıl alanı |
+| **Coordination** | Linda, Reaction-Diffusion | Ortam koordinasyonu — Morpheus'ın asıl alanı |
 
-> ⚠️ TES'i Actor/CSP ile kıyaslamak **elma ile armut**tır. TES bir "Coordination Medium".
+> ⚠️ Morpheus'ı Actor/CSP ile kıyaslamak **elma ile armut**tır. Morpheus bir "Coordination Medium".
 
 ---
 
 ## 2. Karşılaştırma Matrisi
 
-| Özellik | Actor | CSP | Petri | P-Systems | Linda | R-D | **TES** |
+| Özellik | Actor | CSP | Petri | P-Systems | Linda | R-D | **Morpheus** |
 |---------|-------|-----|-------|-----------|-------|-----|---------|
 | **Birim** | Actor | Process | Token | Object | Tuple | Morphogen | Shape |
 | **Ortam** | Yok | Kanal | Place | Membran | Tuple Space | Field | **Space** |
@@ -34,23 +34,23 @@ TES'i doğru konumlandırmak için modelleri üç kategoriye ayırıyoruz:
 
 ### 3. Actor Model (Hewitt, 1973)
 
-| Actor Model | TES |
+| Actor Model | Morpheus |
 |-------------|-----|
 | Mesaj gönderir/alır | **Mesaj yok** |
 | Aktif davranış | Pasif yaşanabilirlik |
 | Private state | Ortamda bellek (Stigmergy) |
 
-> Zıt felsefe: Actor = aktif ajan, TES = edilgen coğrafya.
+> Zıt felsefe: Actor = aktif ajan, Morpheus = edilgen coğrafya.
 
 ### 4. CSP (Hoare, 1978)
 
-| CSP | TES |
+| CSP | Morpheus |
 |-----|-----|
 | Senkron kanal (rendezvous) | **Kanal yok** |
 | Trace = event sequence | Trace = skaler alan |
 | Refinement semantik | Yaşanabilirlik aksiyomları |
 
-> Ortogonal: CSP "ne olduğunu", TES "nerede olabileceğini" modeller.
+> Ortogonal: CSP "ne olduğunu", Morpheus "nerede olabileceğini" modeller.
 
 ---
 
@@ -58,25 +58,25 @@ TES'i doğru konumlandırmak için modelleri üç kategoriye ayırıyoruz:
 
 ### 5. Petri Nets (Petri, 1962)
 
-| Petri Nets | TES |
+| Petri Nets | Morpheus |
 |------------|-----|
 | Token = discrete | Shape = bounded memory |
 | Transition = explicit | **Transition yok** |
 | Marking = countable | ρ = continuous density |
 | Reachability mümkün | **Rollback imkansız** |
 
-> Yapısal benzerlik, operasyonel fark. TES'te transition yok, decay var.
+> Yapısal benzerlik, operasyonel fark. Morpheus'te transition yok, decay var.
 
 ### 6. P-Systems (Păun, 1998)
 
-| P-Systems | TES |
+| P-Systems | Morpheus |
 |-----------|-----|
 | Membran = sınır | Space = topology |
 | Kurallı evrim | **Kuralsız sönümlenme** |
 | Hiyerarşik | Düz topoloji |
 | Turing-complete | Turing iddiası yok |
 
-> **En yakın akraba** (Stigmergy ortaklığı), ama TES kuralsız.
+> **En yakın akraba** (Stigmergy ortaklığı), ama Morpheus kuralsız.
 
 ---
 
@@ -84,9 +84,9 @@ TES'i doğru konumlandırmak için modelleri üç kategoriye ayırıyoruz:
 
 ### 7. Linda & Tuple Spaces (Gelernter, 1985)
 
-**TES'in "Space" kavramının literatürdeki en net atası.**
+**Morpheus'in "Space" kavramının literatürdeki en net atası.**
 
-| Linda | TES |
+| Linda | Morpheus |
 |-------|-----|
 | Tuple = discrete object | Trace = scalar field |
 | Match/Take = retrieve | **Decay = fade** |
@@ -95,17 +95,17 @@ TES'i doğru konumlandırmak için modelleri üç kategoriye ayırıyoruz:
 
 #### Kritik Fark
 - **Linda:** Veriyi "ortaya" bırakır → sonra "match" ile alınır
-- **TES:** Trace "ortaya" birikir → sonra "decay" ile sönümlenir
+- **Morpheus:** Trace "ortaya" birikir → sonra "decay" ile sönümlenir
 
-> TES = **Linda'nın sürekli (continuous) ve sönümlenmeli (decaying) versiyonu**.
+> Morpheus = **Linda'nın sürekli (continuous) ve sönümlenmeli (decaying) versiyonu**.
 
 ---
 
 ### 8. Reaction-Diffusion Systems (Turing, 1952)
 
-**TES'in matematiksel temelinin en güçlü paraleli.**
+**Morpheus'in matematiksel temelinin en güçlü paraleli.**
 
-| Reaction-Diffusion | TES |
+| Reaction-Diffusion | Morpheus |
 |--------------------|-----|
 | Morphogen concentration | Trace density (ρ) |
 | Diffusion coefficient | Decay rate (δ) |
@@ -117,9 +117,9 @@ O 3D histogram görseli = Turing pattern formation'ın hesaplamasal gösterimi.
 
 - **Petri:** "Deadlock" analizi yapar
 - **Reaction-Diffusion:** "Stability" analizi yapar
-- **TES:** "Yaşanabilirlik" analizi yapar
+- **Morpheus:** "Yaşanabilirlik" analizi yapar
 
-> TES, Turing'in morfogenez matematiğinin **bilgisayar bilimi yorumudur**.
+> Morpheus, Turing'in morfogenez matematiğinin **bilgisayar bilimi yorumudur**.
 
 ---
 
@@ -127,7 +127,7 @@ O 3D histogram görseli = Turing pattern formation'ın hesaplamasal gösterimi.
 
 **Dinamik topoloji için karşılaştırma.**
 
-| Pi-Calculus | TES |
+| Pi-Calculus | Morpheus |
 |-------------|-----|
 | Channel mobility (name-passing) | Position change (pos update) |
 | Topology = **graph (links)** | Topology = **field (coordinates)** |
@@ -135,17 +135,17 @@ O 3D histogram görseli = Turing pattern formation'ın hesaplamasal gösterimi.
 
 #### Kritik Fark
 - **Pi-Calculus:** "Kimin kiminle konuştuğu" değişir (link-based)
-- **TES:** "Kim nerede" değişir (coordinate-based)
+- **Morpheus:** "Kim nerede" değişir (coordinate-based)
 
-> TES **graph-less**: bağlantı (edge) yok, yalnızca yakınlık (proximity) var.
+> Morpheus **graph-less**: bağlantı (edge) yok, yalnızca yakınlık (proximity) var.
 
 ---
 
-## 10. TES'in Özgün Konumlandırması
+## 10. Morpheus'ın Özgün Konumlandırması
 
 ### Hiçbir Modelde Olmayan Özellikler
 
-| Özellik | TES |
+| Özellik | Morpheus |
 |---------|-----|
 | **Atemporal uzay** | Uzay değişmez, gözlem değişir |
 | **Trace = side-effect** | Skaler alan, object değil |
@@ -154,22 +154,22 @@ O 3D histogram görseli = Turing pattern formation'ın hesaplamasal gösterimi.
 | **Davranışsız varlık** | Shape "yapmaz", sadece "var" |
 | **Identity-Free Coordination** | Renk, tip, sahip yok — yalnızca yoğunluk (ρ) |
 
-> TES, literatürdeki **tek "Identity-Free Coordination"** modelidir.
+> Morpheus, literatürdeki **tek "Identity-Free Coordination"** modelidir.
 
 ### Literatürdeki Pozisyon
 
 ```
-TES = Linda ∩ Reaction-Diffusion − Rules
+Morpheus = Linda ∩ Reaction-Diffusion − Rules
     = Generative Communication + Continuous Decay − Explicit Retrieval
 ```
 
-TES, Linda'nın "tuple'lar ortamda bağımsız yaşar" fikrini alır, Turing'in "morfogenez = aktivatör + inhibitör + difüzyon" matematiğini uygular, ama **explicit rule yoktur**.
+Morpheus, Linda'nın "tuple'lar ortamda bağımsız yaşar" fikrini alır, Turing'in "morfogenez = aktivatör + inhibitör + difüzyon" matematiğini uygular, ama **explicit rule yoktur**.
 
 ---
 
 ## 11. Sonuç Tablosu
 
-| Kategori | Model | TES ile İlişki |
+| Kategori | Model | Morpheus ile İlişki |
 |----------|-------|----------------|
 | Computational | Actor | Zıt (aktif vs pasif) |
 | Computational | CSP | Ortogonal (event vs topology) |
@@ -181,4 +181,4 @@ TES, Linda'nın "tuple'lar ortamda bağımsız yaşar" fikrini alır, Turing'in 
 
 ### Final Konumlandırma
 
-> TES = **Linda'nın sürekli, sönümlenmeli, kuralsız versiyonu**, Turing morfogenez matematiği üzerine inşa edilmiş bir **Coordination Medium**.
+> Morpheus = **Linda'nın sürekli, sönümlenmeli, kuralsız versiyonu**, Turing morfogenez matematiği üzerine inşa edilmiş bir **Coordination Medium**.

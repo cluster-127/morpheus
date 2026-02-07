@@ -1,17 +1,18 @@
 //! Actor Model Baseline Benchmark
 //!
-//! Simulates Actor-style message handling for comparison with TES.
-//! Key difference: O(n) memory per actor vs TES's O(grid) constant.
+//! Simulates Actor-style message handling for comparison with Morpheus.
+//! Key difference: O(n) memory per actor vs Morpheus's O(grid) constant.
 //!
 //! Run with: cargo bench --bench actor_baseline
 
 use std::collections::VecDeque;
 use std::time::{Duration, Instant};
 
-// Benchmark configuration - same as TES for fair comparison
+// Benchmark configuration - same as Morpheus for fair comparison
 const MAILBOX_CAPACITY: usize = 100;
 
 /// Simulated Actor with mailbox
+#[allow(unused)]
 struct Actor {
     id: usize,
     mailbox: VecDeque<Message>,
@@ -197,6 +198,7 @@ fn benchmark_actor_recovery() -> ActorRecoveryResult {
 }
 
 #[derive(Debug)]
+#[allow(unused)]
 struct ActorLoadSpikeResult {
     requests: usize,
     actors: usize,
