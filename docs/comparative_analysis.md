@@ -80,6 +80,43 @@ Morpheus'ı doğru konumlandırmak için modelleri üç kategoriye ayırıyoruz:
 
 ---
 
+## BÖLÜM D: DİĞER İLİŞKİLİ MODELLER
+
+### 9. Cellular Automata (von Neumann, Conway)
+
+| Cellular Automata | Morpheus |
+|-------------------|----------|
+| Discrete cells | **Continuous density field** |
+| State transitions | **Decay projection** |
+| Local rules (e.g., Game of Life) | **No rules — only habitability** |
+| Grid synchronization | Lock-free atomic updates |
+
+> CA kuralları belirler; Morpheus yaşanabilirliği kontrol eder. Conway'in Life'ı hesaplama yapar; Morpheus sadece "burada var olabilir mi?" diye sorar.
+
+### 10. Neural Networks / Deep Learning
+
+| Neural Network | Morpheus |
+|----------------|----------|
+| Layered topology | **Flat topographic space** |
+| Backpropagation | **No learning — no gradient flow** |
+| Activation functions | **Phase regimes (Solid/Liquid/Gas)** |
+| Weights (trainable) | **Density (emergent, not trained)** |
+
+> Morpheus öğrenmez. Pattern formation, eğitim değil, stigmergic etkileşimin yan ürünüdür.
+
+### 11. Blockchain / Consensus Protocols
+
+| Blockchain | Morpheus |
+|------------|----------|
+| Global consensus | **Local observation only** |
+| Immutable ledger | **Decay — information loss by design** |
+| Identity (wallet) | **No identity (Source Amnesia)** |
+| Deterministic finality | **No determinism guarantee** |
+
+> Morpheus'un "decentralized" iddiası yoktur. Tek bir substrate, birden fazla observer olabilir ama consensus gerekmez.
+
+---
+
 ## BÖLÜM C: COORDINATION MODELS 🎯
 
 ### 7. Linda & Tuple Spaces (Gelernter, 1985)
@@ -94,6 +131,7 @@ Morpheus'ı doğru konumlandırmak için modelleri üç kategoriye ayırıyoruz:
 | Generative communication | **Stigmergy** |
 
 #### Kritik Fark
+
 - **Linda:** Veriyi "ortaya" bırakır → sonra "match" ile alınır
 - **Morpheus:** Trace "ortaya" birikir → sonra "decay" ile sönümlenir
 
@@ -113,6 +151,7 @@ Morpheus'ı doğru konumlandırmak için modelleri üç kategoriye ayırıyoruz:
 | PDE-based (∂U/∂t = D∇²U + F) | **Discrete projection (δ)** |
 
 #### Kritik Ortak Nokta
+
 O 3D histogram görseli = Turing pattern formation'ın hesaplamasal gösterimi.
 
 - **Petri:** "Deadlock" analizi yapar
@@ -123,7 +162,7 @@ O 3D histogram görseli = Turing pattern formation'ın hesaplamasal gösterimi.
 
 ---
 
-### 9. Pi-Calculus (Milner, 1992)
+### 12. Pi-Calculus (Milner, 1992)
 
 **Dinamik topoloji için karşılaştırma.**
 
@@ -134,6 +173,7 @@ O 3D histogram görseli = Turing pattern formation'ın hesaplamasal gösterimi.
 | Dynamic reconfiguration by link | Dynamic by **proximity** |
 
 #### Kritik Fark
+
 - **Pi-Calculus:** "Kimin kiminle konuştuğu" değişir (link-based)
 - **Morpheus:** "Kim nerede" değişir (coordinate-based)
 
@@ -141,7 +181,7 @@ O 3D histogram görseli = Turing pattern formation'ın hesaplamasal gösterimi.
 
 ---
 
-## 10. Morpheus'ın Özgün Konumlandırması
+## 13. Morpheus'ın Özgün Konumlandırması
 
 ### Hiçbir Modelde Olmayan Özellikler
 
@@ -167,7 +207,7 @@ Morpheus, Linda'nın "tuple'lar ortamda bağımsız yaşar" fikrini alır, Turin
 
 ---
 
-## 11. Sonuç Tablosu
+## 14. Sonuç Tablosu
 
 | Kategori | Model | Morpheus ile İlişki |
 |----------|-------|----------------|
@@ -178,7 +218,47 @@ Morpheus, Linda'nın "tuple'lar ortamda bağımsız yaşar" fikrini alır, Turin
 | **Coordination** | **Linda** | **Doğrudan ata** (discrete → continuous) |
 | **Coordination** | **R-D** | **Matematiksel temel** |
 | Coordination | Pi-Calculus | Graph vs Field farkı |
+| Other | Cellular Automata | Continuous vs discrete |
+| Other | Neural Networks | No learning vs training |
+| Other | Blockchain | Local observation vs global consensus |
 
 ### Final Konumlandırma
 
 > Morpheus = **Linda'nın sürekli, sönümlenmeli, kuralsız versiyonu**, Turing morfogenez matematiği üzerine inşa edilmiş bir **Coordination Medium**.
+
+---
+
+## Ek A: Kullanım Senaryoları
+
+### Senaryo 1: Rate Limiting (Doğal)
+
+```rust
+// Threshold'u aşan bölgeler otomatik olarak "doymuş" olur
+// Yeni shape'ler spawn edilemez
+let mut sub = Substrate::new(100, 100, 5, 1000);
+
+// Yoğun bölge oluştur
+for _ in 0..100 {
+    sub.spawn(50, 50, 100, 50);
+}
+
+// Buraya yeni shape eklenemez (is_habitable == false)
+assert!(sub.spawn(50, 50, 100, 10).is_none());
+```
+
+### Senaryo 2: Servis İzolasyonu (Spektroskopik)
+
+```rust
+let grid = IsotopeGrid::new(256, 256, 5, 2500, 1250);
+
+let auth = ServiceColor::from_name("AuthService");
+let payment = ServiceColor::from_name("PaymentService");
+
+// Her servis kendi "renk izini" bırakır
+grid.contribute(100, 100, 200, auth);
+grid.contribute(150, 150, 200, payment);
+
+// Dominant kanal analizi
+assert_eq!(grid.dominant_channel(100, 100), Some('R'));
+assert_eq!(grid.dominant_channel(150, 150), Some('G'));
+```

@@ -28,7 +28,7 @@ Sistem üç ana kavram etrafında şekillenir:
 
 Uzay, kullanıcı tarafından tanımlanan **abstract model** üzerinden inşa edilir. Kullanıcı davranış, komut veya kontrol akışı tanımlamaz; yalnızca topografik parametreleri işaretler. Sistem bu parametrelerden hareketle ideal yaşama koşullarını oluşturur.
 
-> Abstract model, uzayın topografik parametrelerini tanımlayan **dışsal bir yapılandırmadır**. DSL, config veya type-level tanım olabilir; Morpheus bunu yorumlar ama doğrulamaz.
+> Abstract model, uzayın topografik parametrelerini tanımlayan **dışsal bir yapılandırmadır**. Config veya type-level tanım olabilir; Morpheus bunu yorumlar ama doğrulamaz.
 
 Uzayın temel nitelikleri şunlardır:
 
@@ -80,7 +80,32 @@ Komutlar birincil varlıklar değildir. Uzay inşa edildikten sonra, yalnızca b
 
 ## 9. Uygulama Dili ve Altyapı
 
-Referans implementasyon dili Rust'tır. Bunun nedeni performans değil, hafıza ve yaşam döngüsünün zorunlu olarak açık edilmesidir. Allocation, ownership ve drop semantiği, modelin ontolojik karşılıklarıdır.
+Referans implementasyon dili **Rust**'tır. Bunun nedeni performans değil, hafıza ve yaşam döngüsünün zorunlu olarak açık edilmesidir. Allocation, ownership ve drop semantiği, modelin ontolojik karşılıklarıdır.
+
+### Referans Implementasyon Yapısı
+
+| Modül | Dosya | Amaç |
+|-------|-------|------|
+| `Substrate` | `src/substrate.rs` | Simülasyon koordinatörü |
+| `Space` | `src/space.rs` | Topografik alan (A1, A4) |
+| `Shape` | `src/shape.rs` | Taşıyıcı (A0, A2, A5) |
+| `DensityGrid` | `src/grid.rs` | Monokromatik trace (A3) |
+| `IsotopeGrid` | `src/isotope.rs` | RGB trace + difüzyon |
+
+### Temel API
+
+```rust
+// Substrate oluştur
+let mut sub = Substrate::new(width, height, decay_rate, threshold);
+
+// Shape spawn et (yaşanabilirlik kontrolü ile)
+if let Some(id) = sub.spawn(x, y, lifetime, contribution) {
+    // Shape başarıyla oluştu
+}
+
+// Simülasyon tick'i
+sub.tick(); // veya sub.run(ticks);
+```
 
 Uzay, memory-mapped yapılar, vektörel indeksler ve gerektiğinde GPU buffer'ları üzerinden temsil edilebilir. Morpheus ayrı bir process veya engine olarak değil, sessiz bir arka plan katmanı olarak konumlanır.
 

@@ -158,14 +158,22 @@ ENTROPY: 42.09 | PHASE: LIQUID | SOLID%: 12.3 | DECAY: 0.05
 GUI'de config yok. Kod ile tanım:
 
 ```rust
-space! {
-    dimensions: [1024, 1024],
-    decay_rate: 0.05,
-    regimes: {
-        solid: 0.9,
-        liquid: 0.4,
-    }
-}
+use morpheus::{IsotopeGrid, ServiceColor};
+
+// Grid oluştur
+let grid = IsotopeGrid::new(
+    1024, 1024,      // dimensions
+    5,               // decay_rate (0.005 fixed-point)
+    2500,            // solid_threshold
+    1250,            // liquid_threshold
+);
+
+// Servis rengi tanımla
+let auth = ServiceColor::from_name("AuthService");
+let payment = ServiceColor::from_name("PaymentService");
+
+// Kontribüsyon yap
+grid.contribute(x, y, magnitude, auth);
 ```
 
 ### 5.2 SDK Entegrasyonu
@@ -173,14 +181,40 @@ space! {
 ```rust
 // Servis tarafında
 let color = ServiceColor::from_name("AuthService");
-morpheus.contribute(x, y, magnitude, color);
+grid.contribute(x, y, magnitude, color);
 ```
 
 Her `contribute` çağrısı, ekranda o noktada renk parlaması ve decay sönümlenmesi yaratır.
 
+### 5.3 Mevcut Implementasyon
+
+| Özellik | Durum | Dosya |
+|---------|-------|-------|
+| RGB Isotope Grid | ✅ Tamamlandı | `src/isotope.rs` |
+| ServiceColor hashing | ✅ Tamamlandı | `src/isotope.rs:113` |
+| Difüzyon (enerji korunumlu) | ✅ Tamamlandı | `src/isotope.rs:265` |
+| wgpu görselleştirme | ✅ Tamamlandı | `src/bin/viz.rs` |
+| Temporal Flux (Timeline) | ❌ Henüz yok | Konsept aşamasında |
+| Settings Panel (UI) | ❌ Henüz yok | Konsept aşamasında |
+
+> **Not:** GUI spesifikasyonu konsept aşamasındadır. `morpheus-viz` binary'si temel görselleştirmeyi sağlar ancak tam GUI henüz implemente edilmemiştir.
+
 ---
 
 ## 6. Teknoloji Stack
+
+### 6.1 Mevcut Implementasyon
+
+| Katman | Teknoloji | Durum |
+|--------|-----------|-------|
+| Backend | Rust | ✅ `morpheus` crate |
+| Rendering | wgpu 0.19 | ✅ `src/bin/viz.rs` |
+| Window | winit 0.29 | ✅ `src/bin/viz.rs` |
+| Shader | WGSL | ✅ `src/bin/viz.rs:392` |
+
+Çalıştırma: `cargo run --bin morpheus-viz --features viz`
+
+### 6.2 Planlanan Stack (Konsept)
 
 | Katman | Teknoloji |
 |--------|-----------|
